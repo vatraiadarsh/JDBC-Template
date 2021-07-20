@@ -82,5 +82,24 @@ public class CategoryDAOImpl implements CategoryDAO {
         }
        
     }
+
+    @Override
+    public Category getById(int id) throws ClassNotFoundException, SQLException {
+       Category category = null;
+       try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cmj", "root", "")) {
+            String sql = "SELECT * from categories where id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+             stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
+            while (rs.next()) {
+                category = new Category();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setStatus(rs.getBoolean("status")); 
+            }
+       
+       return category;
+    }
     
 }

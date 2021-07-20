@@ -20,6 +20,7 @@ public interface CategoryDAO {
     int update(Category c) throws ClassNotFoundException, SQLException;
     int delete(int id) throws ClassNotFoundException,SQLException;
     List<Category> getAll() throws ClassNotFoundException,SQLException;
+    Category getById(int id) throws ClassNotFoundException,SQLException;
     
     
 }

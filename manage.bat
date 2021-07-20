@@ -1,3 +1,3 @@
 git add .
-git commit -m "Caching with Service Provider"
+git commit -m "Adding getById"
 git push -u origin jdbcMysql
