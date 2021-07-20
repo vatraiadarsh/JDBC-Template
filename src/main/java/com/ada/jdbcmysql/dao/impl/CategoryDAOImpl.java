@@ -10,14 +10,17 @@ import com.ada.jdbcmysql.entity.Category;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author vatra
  */
 public class CategoryDAOImpl implements CategoryDAO {
-
+    
     @Override
     public int insert(Category c) throws ClassNotFoundException, SQLException {
         int result;
@@ -30,7 +33,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         }
         return result;
     }
-
+    
     @Override
     public int update(Category c) throws ClassNotFoundException, SQLException {
         int result;
@@ -44,10 +47,10 @@ public class CategoryDAOImpl implements CategoryDAO {
         }
         return result;
     }
-
+    
     @Override
     public int delete(int id) throws ClassNotFoundException, SQLException {
-       int result;
+        int result;
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cmj", "root", "")) {
             String sql = "DELETE FROM categories where id=? ";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -56,5 +59,27 @@ public class CategoryDAOImpl implements CategoryDAO {
         }
         return result;
     }
-
+    
+    @Override
+    public List<Category> getAll() throws ClassNotFoundException, SQLException {
+        List<Category> categories = new ArrayList<>();
+        
+    
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cmj", "root", "")) {
+            String sql = "SELECT * from categories";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
+            while (rs.next()) {
+                Category category = new Category();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setStatus(rs.getBoolean("status"));
+                categories.add(category);
+            }
+            return categories;
+        }
+       
+    }
+    
 }

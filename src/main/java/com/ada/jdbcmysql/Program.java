@@ -22,7 +22,11 @@ public class Program {
             CategoryDAO categoryDAO = new CategoryDAOImpl();
             //categoryDAO.insert(new Category(0, "Coke", true));
             //categoryDAO.update(new Category(2, "Oil", false));
-            categoryDAO.delete(3);
+            //categoryDAO.delete(3);
+            
+            for(Category c: categoryDAO.getAll()){
+                System.out.println(c.getName());
+            }
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
