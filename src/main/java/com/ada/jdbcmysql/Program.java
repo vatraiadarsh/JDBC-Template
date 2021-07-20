@@ -8,6 +8,7 @@ package com.ada.jdbcmysql;
 import com.ada.jdbcmysql.dao.CategoryDAO;
 import com.ada.jdbcmysql.dao.impl.CategoryDAOImpl;
 import com.ada.jdbcmysql.entity.Category;
+import com.ada.jdbcmysql.service.categoryServiceProvider;
 
 import java.sql.SQLException;
 
@@ -19,10 +20,24 @@ public class Program {
 
     public static void main(String[] args) {
         try {
-            CategoryDAO categoryDAO = new CategoryDAOImpl();
+            //CategoryDAO categoryDAO = new CategoryDAOImpl();
             //categoryDAO.insert(new Category(0, "Coke", true));
             //categoryDAO.update(new Category(2, "Oil", false));
             //categoryDAO.delete(3);
+            
+            categoryServiceProvider categoryDAO = new categoryServiceProvider();
+            
+            for(Category c: categoryDAO.getAll()){
+                System.out.println(c.getName());
+            }
+            
+            System.out.println("-------------------------");
+            
+            for(Category c: categoryDAO.getAll()){
+                System.out.println(c.getName());
+            }
+            
+             System.out.println("-------------------------");
             
             for(Category c: categoryDAO.getAll()){
                 System.out.println(c.getName());

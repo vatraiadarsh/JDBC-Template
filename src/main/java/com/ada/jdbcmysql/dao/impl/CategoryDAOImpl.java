@@ -62,6 +62,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     
     @Override
     public List<Category> getAll() throws ClassNotFoundException, SQLException {
+        System.out.println("I got hit");
         List<Category> categories = new ArrayList<>();
         
     
