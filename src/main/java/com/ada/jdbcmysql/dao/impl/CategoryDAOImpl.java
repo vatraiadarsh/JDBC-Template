@@ -5,8 +5,10 @@
  */
 package com.ada.jdbcmysql.dao.impl;
 
-import com.ada.jdbcmysql.DbConnection;
+import com.ada.jdbcmysql.dbutil.DbConnection;
 import com.ada.jdbcmysql.dao.CategoryDAO;
+import com.ada.jdbcmysql.dbutil.JdbcTemplate;
+import com.ada.jdbcmysql.dbutil.RowMapper;
 import com.ada.jdbcmysql.entity.Category;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +23,7 @@ import java.util.List;
 public class CategoryDAOImpl implements CategoryDAO {
 
     private DbConnection db = new DbConnection();
+    private JdbcTemplate<Category> template = new JdbcTemplate<>();
 
     @Override
     public int insert(Category c) throws ClassNotFoundException, SQLException {
@@ -64,24 +67,51 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public List<Category> getAll() throws ClassNotFoundException, SQLException {
-        System.out.println("I got hit");
-        List<Category> categories = new ArrayList<>();
+//        System.out.println("I got hit");
+//        List<Category> categories = new ArrayList<>();
+//
+//        db.connect();
+//        String sql = "SELECT * from categories";
+//        PreparedStatement stmt = db.initStatement(sql);
+//        ResultSet rs = db.query();
+//        // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
+//        while (rs.next()) {
+//            Category category = new Category();
+//            category.setId(rs.getInt("id"));
+//            category.setName(rs.getString("name"));
+//            category.setStatus(rs.getBoolean("status"));
+//            categories.add(category);
+//
+//        }
+//        db.close();
+//        return categories;
 
-        db.connect();
-        String sql = "SELECT * from categories";
-        PreparedStatement stmt = db.initStatement(sql);
-        ResultSet rs = db.query();
-        // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
-        while (rs.next()) {
-            Category category = new Category();
-            category.setId(rs.getInt("id"));
-            category.setName(rs.getString("name"));
-            category.setStatus(rs.getBoolean("status"));
-            categories.add(category);
 
-        }
-        db.close();
-        return categories;
+
+        return template.query("Select * from categories", null, new RowMapper<Category>() {
+            @Override
+            public Category mapRow(ResultSet rs) throws SQLException {
+                Category category = new Category();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setStatus(rs.getBoolean("status"));
+                return category;
+            }
+        });
+
+
+//If needed whith where can be passed with new Object
+
+//        return template.query("Select * from categories where status=?", new Object[]{true}, new RowMapper<Category>() {
+//            @Override
+//            public Category mapRow(ResultSet rs) throws SQLException {
+//                Category category = new Category();
+//                category.setId(rs.getInt("id"));
+//                category.setName(rs.getString("name"));
+//                category.setStatus(rs.getBoolean("status"));
+//                return category;
+//            }
+//        });
 
     }
 
@@ -92,7 +122,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         String sql = "SELECT * from categories where id=?";
         PreparedStatement stmt = db.initStatement(sql);
         stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs = db.query();
         // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
         while (rs.next()) {
             category = new Category();

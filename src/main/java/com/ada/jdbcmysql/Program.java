@@ -24,14 +24,14 @@ public class Program {
             //categoryDAO.insert(new Category(0, "Coke", true));
             //categoryDAO.update(new Category(2, "Oil", false));
             //categoryDAO.delete(3);
-            
+
             //categoryServiceProvider categoryDAO = new categoryServiceProvider();
-            
-            Category category = categoryDAO.getById(1);
-            System.out.println(category.getName());
-            
-            
-           
+            //Category category = categoryDAO.getById(1);
+            //System.out.println(category.getName());
+            for (Category c : categoryDAO.getAll()) {
+                System.out.println(c.getId());
+                System.out.println(c.getName());
+            }
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ada.jdbcmysql;
+package com.ada.jdbcmysql.dbutil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

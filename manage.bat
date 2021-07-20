@@ -1,3 +1,3 @@
 git add .
-git commit -m "Refactoring DB"
+git commit -m "JDBC template"
 git push -u origin jdbcMysql
