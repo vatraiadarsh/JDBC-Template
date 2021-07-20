@@ -21,17 +21,17 @@ public class Program {
     public static void main(String[] args) {
         try {
             CategoryDAO categoryDAO = new CategoryDAOImpl();
-            //categoryDAO.insert(new Category(0, "Coke", true));
-            //categoryDAO.update(new Category(2, "Oil", false));
-            //categoryDAO.delete(3);
+//            categoryDAO.insert(new Category(0, "Fanta", true));
+//            categoryDAO.update(new Category(2, "Olive", false));
+//            categoryDAO.delete(5);
 
             //categoryServiceProvider categoryDAO = new categoryServiceProvider();
-            //Category category = categoryDAO.getById(1);
-            //System.out.println(category.getName());
-            for (Category c : categoryDAO.getAll()) {
-                System.out.println(c.getId());
-                System.out.println(c.getName());
-            }
+            Category category = categoryDAO.getById(1);
+            System.out.println(category.getName());
+//            for (Category c : categoryDAO.getAll()) {
+//                System.out.println(c.getId());
+//                System.out.println(c.getName());
+//            }
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());

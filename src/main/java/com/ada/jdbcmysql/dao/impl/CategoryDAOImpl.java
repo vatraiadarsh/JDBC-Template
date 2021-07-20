@@ -27,42 +27,58 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public int insert(Category c) throws ClassNotFoundException, SQLException {
-        int result;
-        db.connect();
-        String sql = "INSERT INTO categories(name,status)" + "values(?,?)";
-        PreparedStatement stmt = db.initStatement(sql);
-        stmt.setString(1, c.getName());
-        stmt.setBoolean(2, c.isStatus());
-        result = db.update();
-        db.close();
+//        int result;
+//        db.connect();
+//        String sql = "INSERT INTO categories(name,status)" + "values(?,?)";
+//        PreparedStatement stmt = db.initStatement(sql);
+//        stmt.setString(1, c.getName());
+//        stmt.setBoolean(2, c.isStatus());
+//        result = db.update();
+//        db.close();
+//
+//        return result;
 
-        return result;
+        String sql = "INSERT INTO categories(name,status)" + "values(?,?)";
+        return template.update(sql, new Object[]{
+            c.getName(),
+            c.isStatus()
+        });
     }
 
     @Override
     public int update(Category c) throws ClassNotFoundException, SQLException {
-        int result;
-        db.connect();
+//        int result;
+//        db.connect();
+//        String sql = "UPDATE categories set name=?, modified_date= CURRENT_TIMESTAMP, status=? where id=? ";
+//        PreparedStatement stmt = db.initStatement(sql);
+//        stmt.setString(1, c.getName());
+//        stmt.setBoolean(2, c.isStatus());
+//        stmt.setInt(3, c.getId());
+//        result = db.update();
+//        db.close();
+//        return result;
+
         String sql = "UPDATE categories set name=?, modified_date= CURRENT_TIMESTAMP, status=? where id=? ";
-        PreparedStatement stmt = db.initStatement(sql);
-        stmt.setString(1, c.getName());
-        stmt.setBoolean(2, c.isStatus());
-        stmt.setInt(3, c.getId());
-        result = db.update();
-        db.close();
-        return result;
+        return template.update(sql, new Object[]{
+            c.getName(),
+            c.isStatus(),
+            c.getId()
+        });
     }
 
     @Override
     public int delete(int id) throws ClassNotFoundException, SQLException {
-        int result;
-        db.connect();
+//        int result;
+//        db.connect();
+//        String sql = "DELETE FROM categories where id=? ";
+//        PreparedStatement stmt = db.initStatement(sql);
+//        stmt.setInt(1, id);
+//        result = db.update();
+//        db.close();
+//        return result;
+
         String sql = "DELETE FROM categories where id=? ";
-        PreparedStatement stmt = db.initStatement(sql);
-        stmt.setInt(1, id);
-        result = db.update();
-        db.close();
-        return result;
+        return template.update(sql, new Object[]{id});
     }
 
     @Override
@@ -86,8 +102,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 //        db.close();
 //        return categories;
 
-
-
         return template.query("Select * from categories", null, new RowMapper<Category>() {
             @Override
             public Category mapRow(ResultSet rs) throws SQLException {
@@ -99,9 +113,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             }
         });
 
-
 //If needed whith where can be passed with new Object
-
 //        return template.query("Select * from categories where status=?", new Object[]{true}, new RowMapper<Category>() {
 //            @Override
 //            public Category mapRow(ResultSet rs) throws SQLException {
@@ -112,27 +124,37 @@ public class CategoryDAOImpl implements CategoryDAO {
 //                return category;
 //            }
 //        });
-
     }
 
     @Override
     public Category getById(int id) throws ClassNotFoundException, SQLException {
-        Category category = null;
-        db.connect();
-        String sql = "SELECT * from categories where id=?";
-        PreparedStatement stmt = db.initStatement(sql);
-        stmt.setInt(1, id);
-        ResultSet rs = db.query();
-        // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
-        while (rs.next()) {
-            category = new Category();
-            category.setId(rs.getInt("id"));
-            category.setName(rs.getString("name"));
-            category.setStatus(rs.getBoolean("status"));
+//        Category category = null;
+//        db.connect();
+//        String sql = "SELECT * from categories where id=?";
+//        PreparedStatement stmt = db.initStatement(sql);
+//        stmt.setInt(1, id);
+//        ResultSet rs = db.query();
+//        // for listing(select stmt) we use resultSet and execute query unlike other insert,update,delete with executeUpdate
+//        while (rs.next()) {
+//            category = new Category();
+//            category.setId(rs.getInt("id"));
+//            category.setName(rs.getString("name"));
+//            category.setStatus(rs.getBoolean("status"));
+//
+//        }
+//
+//        db.close();
+//        return category;
 
-        }
-
-        db.close();
-        return category;
+        return template.queryForObject("Select * from categories where id=?", new Object[]{id}, new RowMapper<Category>() {
+            @Override
+            public Category mapRow(ResultSet rs) throws SQLException {
+                Category category = new Category();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setStatus(rs.getBoolean("status"));
+                return category;
+            }
+        });
     }
 }

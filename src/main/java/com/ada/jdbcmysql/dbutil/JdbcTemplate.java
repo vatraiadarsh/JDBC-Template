@@ -39,4 +39,40 @@ public class JdbcTemplate<T> {
         db.close();
         return rows;
     }
+
+    public T queryForObject(String sql, Object[] args, RowMapper<T> mapper) throws ClassNotFoundException, SQLException {
+        T row = null;
+        db.connect();
+        PreparedStatement stmt = db.initStatement(sql);
+        if (args != null) {
+            int counter = 1;
+            for (Object param : args) {
+                stmt.setObject(counter, param);
+                counter++;
+            }
+        }
+        ResultSet rs = db.query();
+        if (rs.next()) {
+            row = mapper.mapRow(rs);
+        }
+
+        db.close();
+        return row;
+    }
+
+    public int update(String sql, Object... args) throws ClassNotFoundException, SQLException {
+        db.connect();
+        PreparedStatement stmt = db.initStatement(sql);
+        if (args != null) {
+            int counter = 1;
+            for (Object param : args) {
+                stmt.setObject(counter, param);
+                counter++;
+            }
+        }
+        int result = db.update();
+        db.close();
+        return result;
+
+    }
 }
