@@ -14,5 +14,9 @@ import java.sql.SQLException;
  */
 public interface CategoryDAO {
 
+//    integer because 0 -> query is executed 1-> !executed
     int insert(Category c) throws ClassNotFoundException, SQLException;
+    int update(Category c) throws ClassNotFoundException, SQLException;
+    int delete(int id) throws ClassNotFoundException,SQLException;
+    
 }

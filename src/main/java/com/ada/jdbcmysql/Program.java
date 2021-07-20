@@ -20,8 +20,10 @@ public class Program {
     public static void main(String[] args) {
         try {
             CategoryDAO categoryDAO = new CategoryDAOImpl();
-            categoryDAO.insert(new Category(0, "Coke", true));
-            
+            //categoryDAO.insert(new Category(0, "Coke", true));
+            //categoryDAO.update(new Category(2, "Oil", false));
+            categoryDAO.delete(3);
+
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }

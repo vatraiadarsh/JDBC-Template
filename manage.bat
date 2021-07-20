@@ -1,3 +1,3 @@
 git add .
-git commit -m "Refactoring+"
+git commit -m "Insert Update Delete"
 git push -u origin jdbcMysql
