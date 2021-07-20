@@ -1,3 +1,3 @@
 git add .
-git commit -m "Adding getById"
+git commit -m "Refactoring DB"
 git push -u origin jdbcMysql
