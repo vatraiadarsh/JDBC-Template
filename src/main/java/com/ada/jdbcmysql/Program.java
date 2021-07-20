@@ -5,10 +5,10 @@
  */
 package com.ada.jdbcmysql;
 
+import com.ada.jdbcmysql.dao.CategoryDAO;
+import com.ada.jdbcmysql.dao.impl.CategoryDAOImpl;
 import com.ada.jdbcmysql.entity.Category;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+
 import java.sql.SQLException;
 
 /**
@@ -19,15 +19,9 @@ public class Program {
 
     public static void main(String[] args) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cmj", "root", "");
-            String sql = "INSERT INTO categories(name,status)" + "values(?,?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            Category category = new Category(0, "Sprite", true);
-            stmt.setString(1, category.getName());
-            stmt.setBoolean(2, category.isStatus());
-            System.out.println(stmt.executeUpdate());
-            conn.close();
+            CategoryDAO categoryDAO = new CategoryDAOImpl();
+            categoryDAO.insert(new Category(0, "Coke", true));
+            
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
