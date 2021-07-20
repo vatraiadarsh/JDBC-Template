@@ -5,15 +5,26 @@
  */
 package com.ada.jdbcmysql;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author vatrai
  */
 public class Program {
+
     public static void main(String[] args) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (Exception e) {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cmj", "root", "");
+            String sql = "INSERT INTO categories(name,status)" + "values('Detergent',0)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            System.out.println(stmt.executeUpdate());
+            conn.close();
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }
